@@ -18,7 +18,9 @@ You can finish the game by clearing all maps.
 
 <div style="text-align:center; margin:10px;">
 <h3 style="text-align:center; color: yellow">  Game Images </h3>
+ 
 <span style="color:green; font-size: 18px;"> Adventure Games Choose Character </span>
+
 
 ![Adventure Game Character Menu](src/GamesImages/choose-character.PNG)
 
