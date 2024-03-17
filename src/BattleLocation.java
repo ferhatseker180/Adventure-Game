@@ -55,8 +55,41 @@ public abstract class BattleLocation extends Location {
             monsterStats(i);
             fight();
         }
+        // If you completed monster's area, you will won award but if you have this award, you won't take this award again.
+        // checkAward() : This is a homework's first bullet.
+        checkAward(this.getPlayer());
 
         return false;
+    }
+
+    public void checkAward(Player player) {
+        if (player.getHealth() > 0) {
+            if (monster.getMonsterName() == Zombie.class.getSimpleName()) {
+                if (player.getInventory().getFood() == null) {
+                    player.getInventory().setFood("Food");
+                    System.out.println("You Won Big Award: " + player.getInventory().getFood());
+                } else {
+                    System.out.println("You Have Already Won");
+                }
+            }
+            if (monster.getMonsterName() == "Vampire") {
+                if (player.getInventory().getFirewood() == null) {
+                    player.getInventory().setFirewood("Firewood");
+                    System.out.println("You Won Big Award: " + player.getInventory().getFirewood());
+                } else {
+                    System.out.println("You Have Already Won");
+                }
+            }
+            if (monster.getMonsterName() == "Bear") {
+                if (player.getInventory().getWater() == null) {
+                    player.getInventory().setWater("Water");
+                    System.out.println("You Won Big Award: " + player.getInventory().getWater());
+                } else {
+                    System.out.println("You Have Already Won");
+                }
+            }
+
+        }
     }
 
     public boolean fight() {
@@ -73,11 +106,25 @@ public abstract class BattleLocation extends Location {
                 break;
             }
             if (chooseWar == 2) {
-                System.out.println("You Hit it.");
-                this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
-                afterHit();
-
-                if (this.getMonster().getHealth() > 0) {
+                // Whether the player or the monster will hit first was determined using the random library as follows.
+                // This is the 2nd item in the game's homework.
+                int randomHit = (int) (Math.random() * 2) + 1;
+                if (randomHit == 1) {
+                    System.out.println("You Hit it.");
+                    this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
+                    afterHit();
+                    if (this.getMonster().getHealth() > 0) {
+                        System.out.println();
+                        System.out.println("Monster Hit You");
+                        int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
+                        if (monsterDamage < 0) {
+                            monsterDamage = 0;
+                        }
+                        this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
+                        afterHit();
+                    }
+                }
+                if (randomHit == 2) {
                     System.out.println();
                     System.out.println("Monster Hit You");
                     int monsterDamage = this.getMonster().getDamage() - this.getPlayer().getInventory().getArmor().getBlock();
@@ -86,7 +133,12 @@ public abstract class BattleLocation extends Location {
                     }
                     this.getPlayer().setHealth(this.getPlayer().getHealth() - monsterDamage);
                     afterHit();
+                    System.out.println();
+                    System.out.println("You Hit it.");
+                    this.getMonster().setHealth(this.getMonster().getHealth() - this.getPlayer().getTotalDamage());
+                    afterHit();
                 }
+
                 checkHealth();
             }
         }
@@ -130,6 +182,7 @@ public abstract class BattleLocation extends Location {
         System.out.println("Blocking: " + this.getPlayer().getInventory().getArmor().getBlock());
         System.out.println("Money: " + this.getPlayer().getMoney());
     }
+
     public boolean checkHealth() {
         if (this.getMonster().getHealth() <= 0) {
             System.out.println();

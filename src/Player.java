@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Player {
-    private int damage, health, money;
+    private int damage, health, money, initialHealth;
     private String userName;
     private Inventory inventory;
 
@@ -16,9 +16,10 @@ public class Player {
         this.inventory = new Inventory();
     }
 
-    public int getTotalDamage(){
+    public int getTotalDamage() {
         return damage + this.getInventory().getGun().getDamage();
     }
+
     public int getDamage() {
         return damage;
     }
@@ -119,6 +120,7 @@ public class Player {
                     break;
                 case 1:
                     location = new SafeHouse(this);
+
                     break;
                 case 2:
                     location = new ToolStore(this);
@@ -154,9 +156,19 @@ public class Player {
                 " Money:" + this.getMoney());
     }
 
+
+    public int getInitialHealth() {
+        return initialHealth;
+    }
+
+    public void setInitialHealth(int initialHealth) {
+        this.initialHealth = initialHealth;
+    }
+
     public void initPlayer(GameCharacter gameCharacter) {
         this.setDamage(gameCharacter.getDamage());
         this.setHealth(gameCharacter.getHealth());
+        this.setInitialHealth(gameCharacter.getHealth());
         this.setMoney(gameCharacter.getMoney());
         this.setUserName(gameCharacter.getCharacterName());
     }

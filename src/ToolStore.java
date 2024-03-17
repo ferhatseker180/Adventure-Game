@@ -46,10 +46,14 @@ public class ToolStore extends NormalLocation {
         System.out.print("Please, Choose Your Gun ID: ");
         int chooseGun = input.nextInt();
 
+
         while (chooseGun < 1 || chooseGun > Guns.guns().length) {
             System.out.println("Wrong Gun's ID, Please Try Again");
             System.out.println("Please, Choose Your Gun ID: ");
             chooseGun = input.nextInt();
+            if (chooseGun == 0){
+                break;
+            }
         }
 
         Guns selectedGun = Guns.getGunsObjById(chooseGun);
@@ -77,6 +81,9 @@ public class ToolStore extends NormalLocation {
             System.out.println("Wrong Gun's ID, Please Try Again");
             System.out.println("Please, Choose Your Armor ID: ");
             chooseArmor = input.nextInt();
+            if (chooseArmor == 0){
+                break;
+            }
         }
 
         Armors selectedArmor = Armors.getArmorsObjById(chooseArmor);
